@@ -1,7 +1,9 @@
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler((req, res, next) => {
-  res.send("Show all the items and category here");
+  res.render("index",{
+    title : "Main Page"
+  })
 });
 
 exports.item_details = asyncHandler(async (req, res, next) => {
