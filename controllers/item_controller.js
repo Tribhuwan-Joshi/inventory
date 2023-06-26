@@ -7,7 +7,7 @@ exports.index = asyncHandler((req, res, next) => {
 });
 
 exports.item_details = asyncHandler(async (req, res, next) => {
-  res.send(`Details about ${req.params.id} item will be here`);
+  res.render(`Details about ${req.params.id} item will be here`);
 });
 
 exports.item_list = asyncHandler(async (req, res, next) => {

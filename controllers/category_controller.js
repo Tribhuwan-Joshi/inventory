@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 exports.category_details = asyncHandler(async (req, res, next) => {
-  res.send(`Details about ${req.params.id} item will be here`);
+  res.render("category_detail",{id:req.params.id});
 });
 
 exports.category_list = asyncHandler(async (req, res, next) => {
