@@ -1,20 +1,27 @@
-const Category = require('../models/category');
-const Item  = require("../models/item");
-const {body,validationResult}  = require('express-validator');
+const Category = require("../models/category");
+const Item = require("../models/item");
+const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
-
-
 exports.category_details = asyncHandler(async (req, res, next) => {
-  res.render("category_detail",{id:req.params.id});
+  res.render("category_detail", { id: req.params.id });
 });
 
 exports.category_list = asyncHandler(async (req, res, next) => {
-  res.send(`All item will be here`);
+  const allCategory = await Category.find({}, "name description")
+    .sort({ name: 1 })
+    .exec();
+
+  res.render("category_list", {
+    allCategory: allCategory,
+    title: "Category List",
+  });
 });
 
 exports.category_create_get = asyncHandler(async (req, res, next) => {
-  res.send("Item create get request will be sent");
+  res.render("category_form",{
+    title : "Create Category"
+  })
 });
 
 exports.category_create_post = asyncHandler(async (req, res, next) => {

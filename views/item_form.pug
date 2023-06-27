@@ -1,2 +1,29 @@
 extends layout 
 block content
+    h1.text-xl.font-semibold=title
+    form(class="flex flex-col max-w-fit text-lg my-6 gap-8  justify-evenly" action="" method="POST")
+        div.flex.gap-2.items-center
+            label(for="name") Name:
+            input#name(class="border border-black p-1" type="text" required placeholder="Name of Item" name="name" maxlength="30")
+        div.flex.gap-2.items-center
+            label(for="description") Description:
+            input#description(class="border border-black p-1" type="text" required placeholder="Item description" name="name" maxlength="30")
+        div.flex.gap-2.items-center
+            label(for="price") Price :
+            input#price(type="number" class="border border-black p-1"  placeholder="Price ($)" name="price" min="1")
+        div.flex.gap-2.items-center
+            label(for="stock_count") Stock count :
+            input#add_on(type="number" class="border border-black p-1"  placeholder="Stock Count" name="stock_count" min="0")
+        div.flex.gap-2.items-center
+            label(for="category") Category :
+            select#category.border.border-black.p-1(type='select', placeholder='Select Category' name='category' required='true' )
+       
+                for category in categories
+               
+                    option(value=category._id) #{category.name}
+
+
+        div.flex.gap-2.items-center
+            label(for="add_on") Add on Date :
+            input#add_on(type="date" class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
+        button(class="self-start border border-gray-800 p-1 px-2 active:bg-gray-400 active:text-white transition duration-300  hover:scale-110 ease-in-out " type="submit") Submit

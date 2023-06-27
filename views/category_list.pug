@@ -1,2 +1,9 @@
 extends layout 
 block content
+    h1.text-2xl.font-bold.mb-4= title 
+    p.text-lg.mb-4 All Categories are listed here :-
+    ul.space-y-2.text-xl 
+        each category in allCategory
+            li 
+                a(href=category.url) #{category.name}
+                | (#{category.description})

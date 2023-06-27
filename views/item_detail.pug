@@ -1,2 +1,7 @@
 extends layout 
 block content
+    h1= title 
+    p #{item.description}
+    p #[strong Price: ] #{item.price}
+    h1 Number of stocks #{item.stocks_count}
+    h1 #[strong Category Name: ]  category.name

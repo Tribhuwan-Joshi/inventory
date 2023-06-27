@@ -4,3 +4,8 @@ block content
   div(class="leading-10")
     h1(class="text-4xl ")= title
     p Welcome to #{title}
+    p A basic express site with all CRUD operations
+    p The inventory has the following record -
+    ul.my-2.space-y-2 
+      li.text-lg #[strong Categories: ] !{category_count}
+      li.text-lg #[strong Items: ] !{item_count}
