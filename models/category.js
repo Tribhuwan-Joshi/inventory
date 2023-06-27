@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const CategorySchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  addOn: { type: Date, default: Date.now },
+  add_on: { type: Date, default: Date.now },
 });
 
 CategorySchema.virtual("url").get(function () {

@@ -1,4 +1,10 @@
+const Category = require('../models/category');
+const Item  = require("../models/item");
+const {body,validationResult}  = require('express-validator');
 const asyncHandler = require("express-async-handler");
+
+
+
 exports.category_details = asyncHandler(async (req, res, next) => {
   res.render("category_detail",{id:req.params.id});
 });

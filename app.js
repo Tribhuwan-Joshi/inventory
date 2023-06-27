@@ -14,7 +14,7 @@ const app = express();
 async function main() {
   await mongoose.connect(process.env.MONGO_URL);
 }
-
+mongoose.set("strictQuery", false);
 main().catch((err) => console.log(err));
 
 // view engine setup

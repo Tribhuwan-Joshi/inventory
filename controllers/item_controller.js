@@ -1,9 +1,12 @@
+const Category = require("../models/category");
+const Item = require("../models/item");
+const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler((req, res, next) => {
-  res.render("index",{
-    title : "Main Page"
-  })
+  res.render("index", {
+    title: "Main Page",
+  });
 });
 
 exports.item_details = asyncHandler(async (req, res, next) => {
