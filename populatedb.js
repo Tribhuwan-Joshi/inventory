@@ -24,6 +24,7 @@ async function main() {
   console.log("Debug: Should be connected?");
   await createCategories();
   await createItems();
+  console.log("categories is", categories);
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }

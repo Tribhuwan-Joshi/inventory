@@ -1,3 +1,8 @@
 extends layout 
 block content
-    p This is the detail about the category #{id}
+    h1.text-2xl.text-semibold.underline= category.name 
+    h1.text-xl #[strong Category Name: ]  #{category.name}
+    p.text-xl.italic #{category.description}
+    p.text-xl #[strong Add On: ] #{category.add_on}
+   
+    

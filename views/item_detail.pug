@@ -1,7 +1,8 @@
 extends layout 
 block content
-    h1= title 
-    p #{item.description}
-    p #[strong Price: ] #{item.price}
-    h1 Number of stocks #{item.stocks_count}
-    h1 #[strong Category Name: ]  category.name
+    h1.text-2xl.text-semibold.underline= title 
+    p.text-xl.italic #{category.description}
+    p.text-xl #[strong Add On: ] $#{item.add_on}
+    p.text-xl #[strong Price: ] $#{item.price}
+    h1.text-xl #[strong Number of stocks: ] #{item.stocks_count}
+    h1.text-xl #[strong Category Name: ]  #{category.name}

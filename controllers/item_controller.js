@@ -19,6 +19,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 exports.item_details = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).exec();
   const category = await Category.findById(item.category._id);
+  console.log(item, category);
   if (item == null) {
     const err = new Error("Item not found");
     err.status(404);
@@ -40,7 +41,7 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
   const categories = await Category.find({}, "name desc").sort({ name: 1 });
   res.render("item_form", {
     title: "Create Item",
-    categories:categories
+    categories: categories,
   });
 });
 

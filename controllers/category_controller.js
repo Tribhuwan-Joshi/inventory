@@ -4,7 +4,14 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 exports.category_details = asyncHandler(async (req, res, next) => {
-  res.render("category_detail", { id: req.params.id });
+  const category = await Category.findById(req.params.id);
+
+  if (category == null) {
+    const err = new Error("category not found");
+    err.status(404);
+    return next(err);
+  }
+  res.render("category_detail", { category });
 });
 
 exports.category_list = asyncHandler(async (req, res, next) => {
@@ -19,9 +26,9 @@ exports.category_list = asyncHandler(async (req, res, next) => {
 });
 
 exports.category_create_get = asyncHandler(async (req, res, next) => {
-  res.render("category_form",{
-    title : "Create Category"
-  })
+  res.render("category_form", {
+    title: "Create Category",
+  });
 });
 
 exports.category_create_post = asyncHandler(async (req, res, next) => {
