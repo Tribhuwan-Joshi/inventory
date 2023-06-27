@@ -52,12 +52,12 @@ async function itemCreate(
   console.log(`Added item : ${name}`);
 }
 
-async function categoryCreate(name, description, add_on) {
+async function categoryCreate(name, description, add_on, index) {
   let category_details = { name, description };
   if (add_on != false) category_details.add_on = add_on;
   const category = new Category(category_details);
   await category.save();
-  categories.push(category);
+  categories[index] = category;
   console.log(`Added category: ${name}`);
 }
 
@@ -94,8 +94,13 @@ async function createItems() {
 async function createCategories() {
   console.log("Adding Categories");
   await Promise.all([
-    categoryCreate("Headwear", "Cool things to wear on head", "2015-08-15"),
-    categoryCreate("EyeWears", "Make your eyes more charismatic", "2020-09-13"),
-    categoryCreate("NeckWears", "wrap soft things around your neck", false),
+    categoryCreate("Headwear", "Cool things to wear on head", "2015-08-15", 0),
+    categoryCreate(
+      "EyeWears",
+      "Make your eyes more charismatic",
+      "2020-09-13",
+      1
+    ),
+    categoryCreate("NeckWears", "wrap soft things around your neck", false, 2),
   ]);
 }

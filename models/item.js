@@ -13,5 +13,8 @@ const ItemSchema = new Schema({
 ItemSchema.virtual("url").get(function () {
   return `/catalog/item/${this._id}`;
 });
+ItemSchema.virtual("date").get(function () {
+  return this.add_on.toLocaleString("en-US", { dateStyle: "medium" });
+});
 
 module.exports = mongoose.model("Item", ItemSchema);

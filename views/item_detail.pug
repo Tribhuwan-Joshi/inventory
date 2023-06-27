@@ -2,7 +2,14 @@ extends layout
 block content
     h1.text-2xl.text-semibold.underline= title 
     p.text-xl.italic #{category.description}
-    p.text-xl #[strong Add On: ] $#{item.add_on}
+    p.text-xl #[strong Add On: ] #{item.date}
     p.text-xl #[strong Price: ] $#{item.price}
-    h1.text-xl #[strong Number of stocks: ] #{item.stocks_count}
-    h1.text-xl #[strong Category Name: ]  #{category.name}
+    if item.stocks_count > 0
+        h1.text-xl #[strong Number of stocks: ] 
+            span.text-green-600 #{item.stocks_count}
+    else 
+        h1.text-xl #[strong Number of stocks: ]
+            span.text-red-700 #{item.stocks_count}
+
+    h1.text-xl #[strong Category Name: ]
+        a(href=category.url)  #{category.name}

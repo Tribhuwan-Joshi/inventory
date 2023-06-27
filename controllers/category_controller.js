@@ -5,13 +5,13 @@ const asyncHandler = require("express-async-handler");
 
 exports.category_details = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.id);
-
+  const items = await Item.find({ category: category }, "name description");
   if (category == null) {
     const err = new Error("category not found");
     err.status(404);
     return next(err);
   }
-  res.render("category_detail", { category });
+  res.render("category_detail", { title: category.name, category, items });
 });
 
 exports.category_list = asyncHandler(async (req, res, next) => {
