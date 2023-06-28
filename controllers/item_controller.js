@@ -85,11 +85,27 @@ exports.item_create_post = [
 ];
 
 exports.item_delete_get = asyncHandler(async (req, res, next) => {
-  res.send(`GET about ${req.params.id} item will be deleted`);
+  const item = await Item.findById(req.params.id).populate("category").exec();
+  if (item == null) {
+    const error = new Error("Item not found");
+    error.status = 404;
+    return next(error);
+  }
+
+  res.render("item_delete", { title: `Delete ${item.name}`, item });
 });
 
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-  res.send(`POST about ${req.params.id} item will be deleted`);
+  console.log("Invalid");
+  const item = await Item.findById(req.params.id).exec();
+  let error;
+  if (req.body.password == process.env.PASSWORD) {
+    await Item.findByIdAndRemove(req.params.id);
+    res.redirect("/catalog/items");
+  } else {
+    error = "Invalid Password !";
+    res.render("item_delete", { title: `Delete ${item.name}`, item, error });
+  }
 });
 
 exports.item_update_get = asyncHandler(async (req, res, next) => {

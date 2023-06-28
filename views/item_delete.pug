@@ -1,2 +1,29 @@
 extends layout 
 block content
+    h1.text-2xl.text-semibold.underline.mb-2= title 
+    if item.description
+        p.text-xl.italic #{item.description}
+    div.space-y-3.mt-6
+        p.text-xl #[strong Add On: ] #{item.date}
+        p.text-xl #[strong Price: ] $#{item.price}
+        if item.stocks_count > 0
+            h1.text-xl #[strong Number of stocks: ] 
+                span.text-green-600 #{item.stocks_count}
+        else 
+            h1.text-xl #[strong Number of stocks: ]
+                span.text-red-700 #{item.stocks_count}
+
+        h1.text-xl #[strong Category Name: ]
+            a(href=item.category.url)  #{item.category.name}
+        
+        form(action="" method="POST").mt-6.text-xl.flex.flex-col.gap-2
+            p Enter admin password to delete #{item.name} ?
+            div.space-x-2
+                label(for="password") Admin Password
+                input#password(name="password" placeholder="Admin Password" type="password" required class="p-1 border border-black")
+            button.text-red-500.w-max(class="hover:underline") Delete
+            
+
+    if error 
+        ul.my-2 
+            li.text-base.text-red-500 #{error}
