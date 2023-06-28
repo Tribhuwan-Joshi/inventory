@@ -7,7 +7,7 @@ block content
             input#name(class="border border-black p-1" type="text" required value=(category===undefined ? '' : category.name) placeholder="Name of category" name="name" maxlength="30")
         div.flex.gap-2.items-center
             label(for="description") Description:
-            input#description(class="border border-black p-1" value=(category===undefined ? '' : category.description) type="text" required placeholder="Category description" name="description" maxlength="50")
+            input#description(class="border border-black p-1" value=(category===undefined ? '' : category.description) type="text" required placeholder="Category description" name="description" size="50" maxlength="50")
         div.flex.gap-2.items-center
             label(for="add_on") Add on Date :
             input#add_on(type="date" class="border border-black p-1" value=(category===undefined ? '' : category.add_on.toISOString().substring(0,10))  placeholder="Addition Date (optional)" name="add_on" )

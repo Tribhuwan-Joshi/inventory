@@ -101,8 +101,8 @@ exports.item_update_get = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  console.log("On update", item, categories);
   res.render("item_form", {
+    title: "Update Item",
     item,
     categories,
   });

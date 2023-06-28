@@ -73,9 +73,50 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
 });
 
 exports.category_update_get = asyncHandler(async (req, res, next) => {
-  res.send(`GET update for ${req.params.id}`);
+  const category = await Category.findById(req.params.id).exec();
+  if (category === null) {
+    const err = new Error("Category not Found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("category_form", {
+    title: "Update Category",
+    category,
+  });
 });
 
-exports.category_update_post = asyncHandler(async (req, res, next) => {
-  res.send(`POST update for ${req.params.id}`);
-});
+exports.category_update_post = [
+  body("name", "Please provide category name")
+    .isLength({ min: 1 })
+    .trim()
+    .escape(),
+  body("description").optional({ checkFalsy: true }).escape(),
+  body("add_on", "Invalid Date")
+    .isISO8601()
+    .toDate()
+    .optional({ checkFalsy: true }),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id,
+    });
+
+    if (req.body.add_on) {
+      category.add_on = req.body.add_on;
+    }
+    if (!errors.isEmpty()) {
+      res.render("category_form", {
+        title: "Create Category",
+        category: category,
+        errors: errors.array(),
+      });
+    } else {
+      await Category.findByIdAndUpdate(req.params.id, category, {});
+      res.redirect(category.url);
+    }
+  }),
+];
