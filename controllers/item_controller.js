@@ -45,9 +45,42 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.item_create_post = asyncHandler(async (req, res, next) => {
-  res.send("response for post request");
-});
+exports.item_create_post = [
+  body("Name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
+  body("description").optional({ checkFalsy: true }).escape(),
+  body("stocks_count").escape().notEmpty().withMessage("Provide stocks count"),
+  body("price")
+    .escape()
+    .notEmpty()
+    .isLength({ min: 1 })
+    .withMessage("Provide item price"),
+  body("category", "Category must not be empty").escape().isLength({ min: 1 }),
+  body("add_on", "Invalid Date").isISO8601().toDate(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      stocks_count: req.body.price,
+      add_on: req.body.add_on,
+      category: req.body.category,
+    });
+
+    if (!errors.isEmpty()) {
+      const categories = await Category.find({}, "name").exec();
+      res.render("item_form", {
+        title: "Create Item",
+        errors: errors.array(),
+        categories: categories,
+        item: item,
+      });
+    } else {
+      await item.save();
+      res.redirect(item.url);
+    }
+  }),
+];
 
 exports.item_delete_get = asyncHandler(async (req, res, next) => {
   res.send(`GET about ${req.params.id} item will be deleted`);

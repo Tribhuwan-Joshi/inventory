@@ -4,26 +4,32 @@ block content
     form(class="flex flex-col max-w-fit text-lg my-6 gap-8  justify-evenly" action="" method="POST")
         div.flex.gap-2.items-center
             label(for="name") Name:
-            input#name(class="border border-black p-1" type="text" required placeholder="Name of Item" name="name" maxlength="30")
+            input#name(class="border border-black p-1" type="text" value=(item==undefined? '' : item.name) required placeholder="Name of Item" name="name" maxlength="30")
         div.flex.gap-2.items-center
             label(for="description") Description:
-            input#description(class="border border-black p-1" type="text" required placeholder="Item description" name="name" maxlength="30")
+            input#description(class="border border-black p-1" type="text" value=(item==undefined? '' :item.description )  placeholder="Item description ( optional )" name="name" maxlength="30")
         div.flex.gap-2.items-center
             label(for="price") Price :
-            input#price(type="number" class="border border-black p-1"  placeholder="Price ($)" name="price" min="1")
+            input#price(type="number" class="border border-black p-1" value=(item==undefined? '' : item.price)  placeholder="Price ($)" name="price" min="1")
         div.flex.gap-2.items-center
-            label(for="stock_count") Stock count :
-            input#add_on(type="number" class="border border-black p-1"  placeholder="Stock Count" name="stock_count" min="0")
+            label(for="stocks_count") Stock count :
+            input#add_on(type="number" class="border border-black p-1" value=(item==undefined? '' :item.stocks_count )  placeholder="Stocks Count" name="stocks_count" min="0")
         div.flex.gap-2.items-center
             label(for="category") Category :
             select#category.border.border-black.p-1(type='select', placeholder='Select Category' name='category' required='true' )
        
-                for category in categories
+                each category in categories
                
-                    option(value=category._id) #{category.name}
+                    option(selected=(item ? category._id.toString() === item.category._id.toString() ? "selected" :false :false) value=category._id) #{category.name}
 
 
         div.flex.gap-2.items-center
             label(for="add_on") Add on Date :
-            input#add_on(type="date" class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
+            input#add_on(type="date" value=(item==undefined? '' :item.date ) class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
         button(class="self-start border border-gray-800 p-1 px-2 active:bg-gray-400 active:text-white transition duration-300  hover:scale-110 ease-in-out " type="submit") Submit
+    
+    
+    if errors
+        ul
+        each error in errors
+            li!= error.msg
