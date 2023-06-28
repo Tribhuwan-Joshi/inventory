@@ -65,13 +65,38 @@ exports.category_create_post = [
 ];
 
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
+  const [category, items] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }).exec(),
+  ]);
+  if (category == null) {
+    res.redirect("/catalog/categories");
+    return;
+  } else {
+    res.render("category_delete", {
+      title: `Delete ${category.name}`,
+      category,
+      items,
+    });
+  }
 
-  
-    res.send(`GET about ${req.params.id} item will be deleted`);
+  res.send(`GET about ${req.params.id} item will be deleted`);
 });
 
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  res.send(`POST about ${req.params.id} item will be deleted`);
+  const category = await Category.findById(req.params.id).exec();
+  let error;
+  if (req.body.password == process.env.PASSWORD) {
+    await Category.findByIdAndRemove(req.params.id);
+    res.redirect("/catalog/categories");
+  } else {
+    error = "Invalid Password !";
+    res.render("category_delete", {
+      title: `Delete ${category.name}`,
+      category,
+      error,
+    });
+  }
 });
 
 exports.category_update_get = asyncHandler(async (req, res, next) => {

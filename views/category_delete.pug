@@ -1,2 +1,32 @@
 extends layout 
 block content
+    h1.text-3xl.text-semibold.underline= category.name 
+    p.text-xl.italic.mb-4 #{category.description}
+    h1.text-xl #[strong Category Name: ]  #{category.name}
+    p.text-xl #[strong Add On: ] #{category.date}
+    h1.text-2xl.underline.mt-6.mb-2 Items under this category
+    
+    if (items.length==0)
+        ul.list-disc
+            li.text-base No Items in this category 
+        form(action="" method="POST").mt-6.text-xl.flex.flex-col.gap-2
+            p.text-lg Enter admin password to delete #{category.name} ?
+            div.space-x-2
+                label.text-lg(for="password") Admin Password
+                input#password(name="password" placeholder="Admin Password" type="password" required class="p-1 border border-black")
+            button.text-red-500.w-max.text-lg(class="hover:underline") Delete
+            if error 
+                ul.my-2 
+                    li.text-base.text-red-500 #{error}
+    else
+        p Delete these items before deleting this Category
+        ul.list-disc
+        each item in items
+            li 
+                a.text-xl(href=item.url) !{item.name}
+
+    
+        
+
+
+    

@@ -96,7 +96,7 @@ exports.item_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-  console.log("Invalid");
+  
   const item = await Item.findById(req.params.id).exec();
   let error;
   if (req.body.password == process.env.PASSWORD) {
