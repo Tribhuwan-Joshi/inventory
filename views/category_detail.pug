@@ -1,8 +1,8 @@
 extends layout 
 block content
     h1.text-3xl.text-semibold.underline= category.name 
+    p.text-xl.italic.mb-4 #{category.description}
     h1.text-xl #[strong Category Name: ]  #{category.name}
-    p.text-xl.italic #{category.description}
     p.text-xl #[strong Add On: ] #{category.date}
     h1.text-2xl.underline.mt-6.mb-2 Items under this category
     ul.list-disc
@@ -13,6 +13,12 @@ block content
             each item in items
                 li 
                     a.text-xl(href=item.url) !{item.name}
+    
+    div.mt-6.text-xl.flex.gap-4.w-max
+            p
+                a.text-red-500(href=category.url+'/delete') Delete Category 
+            p 
+                a(href=category.url + '/update') Update Category
 
    
     

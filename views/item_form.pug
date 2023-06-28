@@ -7,7 +7,7 @@ block content
             input#name(class="border border-black p-1" type="text" value=(item==undefined? '' : item.name) required placeholder="Name of Item" name="name" maxlength="30")
         div.flex.gap-2.items-center
             label(for="description") Description:
-            input#description(class="border border-black p-1" type="text" value=(item==undefined? '' :item.description )   placeholder="Item description ( optional )" name="description" maxlength="30")
+            input#description(class="border  border-black p-1" type="text" value=(item==undefined? '' :item.description )   placeholder="Item description ( optional )" name="description" size="50" maxlength="70")
         div.flex.gap-2.items-center
             label(for="price") Price :
             input#price(type="number" class="border border-black p-1" value=(item==undefined? '' : item.price)  placeholder="Price ($)" name="price" min="1")

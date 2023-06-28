@@ -1,16 +1,23 @@
 extends layout 
 block content
-    h1.text-2xl.text-semibold.underline= title 
-    if category.description
-        p.text-xl.italic #{category.description}
-    p.text-xl #[strong Add On: ] #{item.date}
-    p.text-xl #[strong Price: ] $#{item.price}
-    if item.stocks_count > 0
-        h1.text-xl #[strong Number of stocks: ] 
-            span.text-green-600 #{item.stocks_count}
-    else 
-        h1.text-xl #[strong Number of stocks: ]
-            span.text-red-700 #{item.stocks_count}
+    h1.text-2xl.text-semibold.underline.mb-2= title 
+    if item.description
+        p.text-xl.italic #{item.description}
+    div.space-y-3.mt-6
+        p.text-xl #[strong Add On: ] #{item.date}
+        p.text-xl #[strong Price: ] $#{item.price}
+        if item.stocks_count > 0
+            h1.text-xl #[strong Number of stocks: ] 
+                span.text-green-600 #{item.stocks_count}
+        else 
+            h1.text-xl #[strong Number of stocks: ]
+                span.text-red-700 #{item.stocks_count}
 
-    h1.text-xl #[strong Category Name: ]
-        a(href=category.url)  #{category.name}
+        h1.text-xl #[strong Category Name: ]
+            a(href=category.url)  #{category.name}
+        
+        div.mt-6.text-xl.flex.gap-4.w-max
+            p
+                a.text-red-500(href=item.url+'/delete') Delete Item 
+            p 
+                a(href=item.url + '/update') Update Item
