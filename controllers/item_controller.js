@@ -46,27 +46,30 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.item_create_post = [
-  body("Name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
+  body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("description").optional({ checkFalsy: true }).escape(),
   body("stocks_count").escape().notEmpty().withMessage("Provide stocks count"),
-  body("price")
-    .escape()
-    .notEmpty()
-    .isLength({ min: 1 })
-    .withMessage("Provide item price"),
+  body("price", "Provide price of the item").escape().isLength({ min: 1 }),
+
   body("category", "Category must not be empty").escape().isLength({ min: 1 }),
-  body("add_on", "Invalid Date").isISO8601().toDate(),
+  body("add_on", "Invalid Date")
+    .isISO8601()
+    .toDate()
+    .optional({ checkFalsy: true }),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const item = new Item({
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,
-      stocks_count: req.body.price,
-      add_on: req.body.add_on,
+      stocks_count: req.body.stocks_count,
+
       category: req.body.category,
     });
-
+    if (req.params.add_on) {
+      item.add_on = req.params.add_on;
+    }
+    console.log(item, " This is item");
     if (!errors.isEmpty()) {
       const categories = await Category.find({}, "name").exec();
       res.render("item_form", {

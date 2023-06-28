@@ -31,9 +31,38 @@ exports.category_create_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.category_create_post = asyncHandler(async (req, res, next) => {
-  res.send("response for post request");
-});
+exports.category_create_post = [
+  body("name", "Please provide category name")
+    .isLength({ min: 1 })
+    .trim()
+    .escape(),
+  body("description").optional({ checkFalsy: true }).escape(),
+  body("add_on", "Invalid Date")
+    .isISO8601()
+    .toDate()
+    .optional({ checkFalsy: true }),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+    });
+    if (req.body.add_on) {
+      category.add_on = add_on;
+    }
+    if (!errors.isEmpty()) {
+      res.render("category_form", {
+        title: "Create Category",
+        category: category,
+        errors: errors.array(),
+      });
+    } else {
+      await category.save();
+      res.redirect(category.url);
+    }
+  }),
+];
 
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
   res.send(`GET about ${req.params.id} item will be deleted`);

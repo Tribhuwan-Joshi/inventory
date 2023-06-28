@@ -7,7 +7,7 @@ block content
             input#name(class="border border-black p-1" type="text" value=(item==undefined? '' : item.name) required placeholder="Name of Item" name="name" maxlength="30")
         div.flex.gap-2.items-center
             label(for="description") Description:
-            input#description(class="border border-black p-1" type="text" value=(item==undefined? '' :item.description )  placeholder="Item description ( optional )" name="name" maxlength="30")
+            input#description(class="border border-black p-1" type="text" value=(item==undefined? '' :item.description )   placeholder="Item description ( optional )" name="description" maxlength="30")
         div.flex.gap-2.items-center
             label(for="price") Price :
             input#price(type="number" class="border border-black p-1" value=(item==undefined? '' : item.price)  placeholder="Price ($)" name="price" min="1")
@@ -19,17 +19,19 @@ block content
             select#category.border.border-black.p-1(type='select', placeholder='Select Category' name='category' required='true' )
        
                 each category in categories
-               
-                    option(selected=(item ? category._id.toString() === item.category._id.toString() ? "selected" :false :false) value=category._id) #{category.name}
+                    if item
+                        option( selected=( category._id.toString() === item.category._id.toString() ? "selected" :false ) value=category._id) #{category.name}
+                    else   
+                        option(value=category._id) #{category.name}
 
 
         div.flex.gap-2.items-center
             label(for="add_on") Add on Date :
-            input#add_on(type="date" value=(item==undefined? '' :item.date ) class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
+            input#add_on(type="date" value=(item==undefined? '' :item.add_on.toISOString().substring(0, 10) ) class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
         button(class="self-start border border-gray-800 p-1 px-2 active:bg-gray-400 active:text-white transition duration-300  hover:scale-110 ease-in-out " type="submit") Submit
     
     
     if errors
         ul
         each error in errors
-            li!= error.msg
+            li.text-lg.text-red-600= error.msg

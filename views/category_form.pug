@@ -3,12 +3,17 @@ block content
     h1.text-xl.font-semibold=title
     form(class="flex flex-col max-w-fit text-lg my-6 gap-8  justify-evenly" action="" method="POST")
         div.flex.gap-2.items-center
-            label(for="name") Name:
-            input#name(class="border border-black p-1" type="text" required placeholder="Name of category" name="name" maxlength="30")
+            label(for="name") Name *:
+            input#name(class="border border-black p-1" type="text" required value=(category===undefined ? '' : category.name) placeholder="Name of category" name="name" maxlength="30")
         div.flex.gap-2.items-center
             label(for="description") Description:
-            input#description(class="border border-black p-1" type="text" required placeholder="Category description" name="name" maxlength="30")
+            input#description(class="border border-black p-1" value=(category===undefined ? '' : category.description) type="text" required placeholder="Category description" name="description" maxlength="50")
         div.flex.gap-2.items-center
             label(for="add_on") Add on Date :
-            input#add_on(type="date" class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
+            input#add_on(type="date" class="border border-black p-1" value=(category===undefined ? '' : category.add_on.toISOString().substring(0,10))  placeholder="Addition Date (optional)" name="add_on" )
         button(class="self-start border border-gray-800 p-1 px-2 active:bg-gray-400 active:text-white transition duration-300  hover:scale-110 ease-in-out " type="submit") Submit
+
+        if errors
+            ul
+                each error in errors
+                    li.text-lg.text-red-600= error.msg
