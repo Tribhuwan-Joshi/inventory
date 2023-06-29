@@ -1,7 +1,7 @@
 extends layout 
 block content
     h1.text-xl.font-semibold=title
-    form(class="flex flex-col max-w-fit text-lg my-6 gap-8  justify-evenly" action="" method="POST")
+    form(class="flex flex-col max-w-fit text-lg my-6 gap-8  justify-evenly" action="" enctype="multipart/form-data" method="POST")
         div.flex.gap-2.items-center
             label(for="name") Name:
             input#name(class="border border-black p-1" type="text" value=(item==undefined? '' : item.name) required placeholder="Name of Item" name="name" maxlength="30")
@@ -28,6 +28,9 @@ block content
         div.flex.gap-2.items-center
             label(for="add_on") Add on Date :
             input#add_on(type="date" value=(item==undefined? '' :item.add_on.toISOString().substring(0, 10) ) class="border border-black p-1"  placeholder="Addition Date (optional)" name="add_on" maxlength="30")
+        div.flex.w-max.gap-4
+            label(for="itemImage") Item Image 
+            input#itemImage(type="file" name="itemImage" accept="image/*")
         button(class="self-start border border-gray-800 p-1 px-2 active:bg-gray-400 active:text-white transition duration-300  hover:scale-110 ease-in-out " type="submit") Submit
     
     

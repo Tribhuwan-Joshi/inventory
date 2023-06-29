@@ -57,6 +57,7 @@ exports.item_create_post = [
     .toDate()
     .optional({ checkFalsy: true }),
   asyncHandler(async (req, res, next) => {
+    console.log(req.file);
     const errors = validationResult(req);
     const item = new Item({
       name: req.body.name,
@@ -96,7 +97,6 @@ exports.item_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-  
   const item = await Item.findById(req.params.id).exec();
   let error;
   if (req.body.password == process.env.PASSWORD) {
