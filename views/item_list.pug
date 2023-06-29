@@ -1,9 +1,10 @@
-extends layout 
+extends layout
+
 block content
-    h1.text-2xl.font-bold.mb-4= title 
-    p.text-lg.mb-4 All Items are listed here :-
-    ul.space-y-2.text-xl 
-        each item in allItems
-            li 
-                a(href=item.url) #{item.name}
-                | (#{item.category.name})
+  h1.text-2xl.font-bold.mb-4= title
+  p.text-lg.mb-4 All Items are listed here: 
+  ul.space-y-2.text-xl    
+    each item in allItems
+      li
+        a(href=item.url)= item.name
+        | (#{item.category.name})

@@ -2,6 +2,8 @@ const Category = require("../models/category");
 const Item = require("../models/item");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+const fs = require("fs");
+const path = require("path");
 
 exports.index = asyncHandler(async (req, res, next) => {
   const [item_count, category_count] = await Promise.all([
@@ -19,7 +21,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 exports.item_details = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).exec();
   const category = await Category.findById(item.category._id);
-  console.log(item, category);
+
   if (item == null) {
     const err = new Error("Item not found");
     err.status(404);
@@ -70,6 +72,9 @@ exports.item_create_post = [
     if (req.body.add_on) {
       item.add_on = req.body.add_on;
     }
+    if (req.file) {
+      item.img = req.file.filename;
+    }
     if (!errors.isEmpty()) {
       const categories = await Category.find({}, "name").exec();
       res.render("item_form", {
@@ -100,6 +105,11 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).exec();
   let error;
   if (req.body.password == process.env.PASSWORD) {
+    const prevImg = item.img;
+
+    if (prevImg) {
+      fs.unlinkSync(`./uploads/${prevImg}`);
+    }
     await Item.findByIdAndRemove(req.params.id);
     res.redirect("/catalog/items");
   } else {
@@ -111,6 +121,7 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
 exports.item_update_get = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).exec();
   const categories = await Category.find({}).exec();
+
   if (item === null) {
     const err = new Error("Item not Found");
     err.status = 404;
@@ -136,6 +147,14 @@ exports.item_update_post = [
     .toDate()
     .optional({ checkFalsy: true }),
   asyncHandler(async (req, res, next) => {
+    const updated = await Item.findById(req.params.id).exec();
+    console.log("updated item is ", updated);
+    const prevImg = updated.img;
+    console.log("prev image is", prevImg);
+    if (prevImg && req.file) {
+      fs.unlinkSync(`./uploads/${prevImg}`);
+    }
+
     const errors = validationResult(req);
     const item = new Item({
       name: req.body.name,
@@ -147,6 +166,10 @@ exports.item_update_post = [
     });
     if (req.body.add_on) {
       item.add_on = req.body.add_on;
+    }
+
+    if (req.file) {
+      item.img = req.file.filename;
     }
     if (!errors.isEmpty()) {
       const categories = await Category.find({}, "name").exec();

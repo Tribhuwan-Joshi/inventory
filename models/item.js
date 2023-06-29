@@ -8,6 +8,7 @@ const ItemSchema = new Schema({
   price: { type: Number, required: true },
   stocks_count: { type: Number, required: true },
   add_on: { type: Date, default: Date.now },
+  img: { type: String },
 });
 
 ItemSchema.virtual("url").get(function () {
@@ -16,6 +17,5 @@ ItemSchema.virtual("url").get(function () {
 ItemSchema.virtual("date").get(function () {
   return this.add_on.toLocaleString("en-US", { dateStyle: "medium" });
 });
-
 
 module.exports = mongoose.model("Item", ItemSchema);
