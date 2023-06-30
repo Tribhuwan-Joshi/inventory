@@ -1,0 +1,1 @@
+All of the uploads will be inside this directory
