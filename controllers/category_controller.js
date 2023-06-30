@@ -79,8 +79,6 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
       items,
     });
   }
-
-  res.send(`GET about ${req.params.id} item will be deleted`);
 });
 
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
